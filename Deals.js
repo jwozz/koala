@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import DealsFilter from "./DealsFilter";
 import ItemCard from "./ItemCard";
 import ShopFront from "./ShopFronts";
-import ProductScreen from "./ProductScreen";
 
 
 const Deals = () => {

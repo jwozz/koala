@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import ProductScreen from './ProductScreen';
+import StatusViewer from './StatusViewer';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -11,9 +12,15 @@ const shopData = [
   { id: '3', name: 'Shop Three', profilePic: 'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg' },
 ];
 
+const statuses = [
+  'https://picsum.photos/300/500?image=10',
+  'https://picsum.photos/300/500?image=20',
+  'https://picsum.photos/300/500?image=30',
+];
+
 const UpdatesTab = () => (
   <View style={styles.tabContent}>
-    <Text style={styles.tabText}>Updates content goes here</Text>
+    <StatusViewer statuses={statuses} duration={5000} />
   </View>
 );
 
