@@ -117,12 +117,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '85%',
     borderRadius: 30,
-    backgroundColor: 'rgb(0, 41, 59)',
+    backgroundColor: 'rgb(41, 41, 41)',
     paddingVertical: 1.8
   },
   searchIcon: {
     fontSize: 25,
-    borderRadius: 20,
+    borderRadius: 20, 
     color: 'rgba(255, 255, 255, 0.6)',
     padding: 5,
   },
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     color: 'rgba(255, 255, 255, 0.6)',
-    fontWeight: '300',
+    fontWeight: '500',
     fontSize: 15,
   },
   input: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.9)',
     fontSize: 16,
     borderRadius: 10,
-    fontWeight: '400',
+    fontWeight: '600',
     paddingLeft: 15,
   },
   newPost: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     width: 46,
     height: 46,
     borderRadius: 100,
-    backgroundColor: 'rgb(0, 69, 99)',
+    backgroundColor: 'rgb(41, 41, 41)',
   },
   newPostBtn: {
     color: 'white',

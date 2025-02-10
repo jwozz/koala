@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 
 const categories = [
-  "All",
-  "Near by",
-  "Offers",
-  "Categories"
+  "Category",
+  "Shops",
+  "Browse",
+  "Promos",
 ];
 
 const DealsFilter = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Shops");
 
   const handleCategoryPress = (category) => {
     setActiveCategory(category);
@@ -50,25 +50,26 @@ const DealsFilter = () => {
 
 const styles = StyleSheet.create({
   container: {
+    paddingVertical: 10,
   },
   scrollContainer: {
     paddingHorizontal: 5,
-    paddingLeft: 15
   },
   categoryItem: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
     backgroundColor: "#121212",
-    borderRadius: 20,
+    borderRadius: 5,
     marginHorizontal: 5,
+    backgroundColor: "rgb(31, 31, 31)",
   },
   activeCategoryItem: {
-    backgroundColor: "#00283a",
+    backgroundColor: "rgb(54, 54, 54)",
   },
   categoryText: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: "rgba(255, 255, 255, 0.5)",
+    fontSize: 13,
+    fontWeight: '500',
+    color: "#aaa",
   },
   activeCategoryText: {
     color: "#fff",
