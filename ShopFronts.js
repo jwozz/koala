@@ -1,15 +1,39 @@
-import React, { useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+// ShopFront.js
+import React, { useState, useRef } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+import { TabView, TabBar } from 'react-native-tab-view';
 import ProductScreen from './ProductScreen';
 import StatusViewer from './StatusViewer';
 
 const screenWidth = Dimensions.get('window').width;
 
 const shopData = [
-  { id: '1', name: 'Shop One', profilePic: 'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg' },
-  { id: '2', name: 'Shop Two', profilePic: 'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg' },
-  { id: '3', name: 'Shop Three', profilePic: 'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg' },
+  {
+    id: '1',
+    name: 'Shop One',
+    profilePic:
+      'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg',
+  },
+  {
+    id: '2',
+    name: 'Shop Two',
+    profilePic:
+      'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg',
+  },
+  {
+    id: '3',
+    name: 'Shop Three',
+    profilePic:
+      'https://images-na.ssl-images-amazon.com/images/I/71PvIY11X2L._UL500_.jpg',
+  },
 ];
 
 const statuses = [
@@ -18,75 +42,98 @@ const statuses = [
   'https://picsum.photos/300/500?image=30',
 ];
 
-const UpdatesTab = () => (
-  <View style={styles.tabContent}>
-    <StatusViewer statuses={statuses} duration={5000} />
-  </View>
-);
-
 const ProductsTab = () => (
-    <ScrollView
-    vertical
+  <ScrollView
     contentContainerStyle={styles.tabContent}
     showsVerticalScrollIndicator={false}
-    nestedScrollEnabled={true}
-  >
+    nestedScrollEnabled={true}>
     <ProductScreen />
   </ScrollView>
 );
 
-const ShopCard = ({ shop }) => {
+const ShopCard = ({ shop, isActive }) => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'updates', title: 'Updates' },
     { key: 'products', title: 'Catalog' },
   ]);
 
-  const renderScene = SceneMap({
-    updates: UpdatesTab,
-    products: ProductsTab,
-  });
+  // We use a custom renderScene so we can pass the isActive flag (as isVisible)
+  // to StatusViewer.
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'updates':
+        return (
+          <View style={styles.tabContent}>
+            <StatusViewer statuses={statuses} duration={5000} isVisible={isActive} />
+          </View>
+        );
+      case 'products':
+        return <ProductsTab />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <View style={styles.card}>
-        <View style={styles.profileInfo}>
-            <Image source={{ uri: shop.profilePic }} style={styles.profilePic} />
-        </View>
-        <View style={styles.infoCage}>
-            <Text style={styles.shopName}>{shop.name}</Text>
-
-            <TabView
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            style={styles.tabCage}
-            initialLayout={{ width: screenWidth - 40 }} 
-            renderTabBar={(props) => (
-                <TabBar
-                {...props}
-                style={styles.tabBar}
-                indicatorStyle={styles.tabIndicator}
-                tabLabelStyle={styles.tabLabel}
-                activeColor="rgb(255, 255, 255)" 
-                inactiveColor="#aaa"
-                />
-            )}
+      <View style={styles.profileInfo}>
+        <Image source={{ uri: shop.profilePic }} style={styles.profilePic} />
+      </View>
+      <View style={styles.infoCage}>
+        <Text style={styles.shopName}>{shop.name}</Text>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: screenWidth - 40 }}
+          renderTabBar={(props) => (
+            <TabBar
+              {...props}
+              style={styles.tabBar}
+              indicatorStyle={styles.tabIndicator}
+              tabLabelStyle={styles.tabLabel}
+              activeColor="rgb(255, 255, 255)"
+              inactiveColor="#aaa"
             />
-        </View>
+          )}
+          style={styles.tabCage}
+        />
+      </View>
     </View>
   );
 };
 
-const ShopFronts = () => (
-  <FlatList
-    data={shopData}
-    keyExtractor={(item) => item.id}
-    renderItem={({ item }) => <ShopCard shop={item} />}
-    contentContainerStyle={styles.container}
-    nestedScrollEnabled={true}
-  />
-);
+const ShopFronts = () => {
+  // activeCardId will hold the id of the card that is at least 80% visible.
+  const [activeCardId, setActiveCardId] = useState(null);
 
+  // Configure viewability so that an item is considered "viewable" only if at least 80% is visible.
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 80,
+  };
+
+  // onViewableItemsChanged is fired when the viewable items change.
+  // Here, we simply choose the first viewable item as the active card.
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems && viewableItems.length > 0) {
+      setActiveCardId(viewableItems[0].item.id);
+    }
+  }).current;
+
+  return (
+    <FlatList
+      data={shopData}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <ShopCard shop={item} isActive={activeCardId === item.id} />
+      )}
+      contentContainerStyle={styles.container}
+      onViewableItemsChanged={onViewableItemsChanged}
+      viewabilityConfig={viewabilityConfig}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

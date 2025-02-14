@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: '85%',
     borderRadius: 30,
     backgroundColor: 'rgb(41, 41, 41)',
-    paddingVertical: 1.8
+    paddingVertical: 1.8 
   },
   searchIcon: {
     fontSize: 25,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   placeholderWrapper: {
     position: 'absolute',
-    paddingLeft: 15,
+    paddingLeft: 0,
     width: '100%',
     justifyContent: 'center',
   },

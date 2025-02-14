@@ -14,7 +14,7 @@ import {
  * - duration: (optional) time in milliseconds each status is shown (default 5000)
  * - containerStyle: (optional) override container styling.
  */
-const StatusViewer = ({ statuses, duration = 5000, containerStyle }) => {
+const StatusViewer = ({ statuses, duration = 5000, isVisible, containerStyle }) => {
   // Index of the current status
   const [currentIndex, setCurrentIndex] = useState(0);
   // Animated value used to fill the progress bar for the current status.
@@ -27,12 +27,12 @@ const StatusViewer = ({ statuses, duration = 5000, containerStyle }) => {
   const [progressContainerWidth, setProgressContainerWidth] = useState(0);
 
   // Helper: starts the progress animation (from 0 to 1) then auto‑advances.
-  const startProgressAnimation = () => {
+  const startAnimation = () => {
     progress.setValue(0);
     animationRef.current = Animated.timing(progress, {
       toValue: 1,
       duration,
-      useNativeDriver: false, // width animation does not support native driver
+      useNativeDriver: false, // width animations cannot use native driver
     });
     animationRef.current.start(({ finished }) => {
       if (finished) {
@@ -43,47 +43,38 @@ const StatusViewer = ({ statuses, duration = 5000, containerStyle }) => {
 
   // When currentIndex changes, fade in the new image and start progress.
   useEffect(() => {
-    // Restart the fade animation.
-    imageOpacity.setValue(0);
-    Animated.timing(imageOpacity, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    // Start progress bar animation.
-    startProgressAnimation();
-
-    // Clean up if component unmounts or before starting a new animation.
-    return () => {
+    if (isVisible) {
+      // When visible, fade in and start the progress animation.
+      imageOpacity.setValue(0);
+      Animated.timing(imageOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      startAnimation();
+    } else {
+      // When not visible, stop any ongoing animation.
       if (animationRef.current) {
         animationRef.current.stop();
       }
+    }
+    return () => {
+      if (animationRef.current) animationRef.current.stop();
     };
-  }, [currentIndex]);
+  }, [isVisible, currentIndex]);
 
-  // Called when user taps the right side (or auto‑advance finishes)
   const handleNext = () => {
-    if (animationRef.current) {
-      animationRef.current.stop();
-    }
-    if (currentIndex < statuses.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-    // Else: at last status—could optionally trigger an “onClose” callback here.
+    if (animationRef.current) animationRef.current.stop();
+    setCurrentIndex(currentIndex < statuses.length - 1 ? currentIndex + 1 : 0);
   };
 
-  // Called when user taps the left side.
   const handlePrev = () => {
-    if (animationRef.current) {
-      animationRef.current.stop();
-    }
+    if (animationRef.current) animationRef.current.stop();
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
-      // Optionally, restart the first status’s animation.
       progress.setValue(0);
-      startProgressAnimation();
+      if (isVisible) startAnimation();
     }
   };
 
@@ -148,7 +139,7 @@ const StatusViewer = ({ statuses, duration = 5000, containerStyle }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%', // fixed-size container (not fullscreen)
+    width: '100%',
     height: 300,
     backgroundColor: '#000',
     overflow: 'hidden',
@@ -174,7 +165,7 @@ const styles = StyleSheet.create({
   },
   progressBarForeground: {
     height: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
   },
   touchableContainer: {
     position: 'absolute',
