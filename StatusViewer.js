@@ -139,10 +139,8 @@ const StatusViewer = ({ statuses, duration = 5000, isVisible, containerStyle }) 
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
     width: '100%',
-    height: 300,
-    backgroundColor: '#000',
-    overflow: 'hidden',
   },
   image: {
     width: '100%',
@@ -150,22 +148,20 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
+    bottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     zIndex: 2,
   },
   progressBarBackground: {
     flex: 1,
-    height: 2,
+    height: 2 ,
     backgroundColor: 'rgba(255,255,255,0.5)',
     marginHorizontal: 2,
   },
   progressBarForeground: {
     height: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
   touchableContainer: {
     position: 'absolute',

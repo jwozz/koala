@@ -79,9 +79,9 @@ const ShopCard = ({ shop, isActive }) => {
     <View style={styles.card}>
       <View style={styles.profileInfo}>
         <Image source={{ uri: shop.profilePic }} style={styles.profilePic} />
+        <Text style={styles.shopName}>{shop.name}</Text>
       </View>
       <View style={styles.infoCage}>
-        <Text style={styles.shopName}>{shop.name}</Text>
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -137,21 +137,21 @@ const ShopFronts = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 10
   },
   card: {
-    paddingVertical: 5,
     marginTop: 15,
     marginBottom: 15,
     borderBottomWidth: 0,
     borderColor: 'rgba(34, 34, 34, 0.5)',
-    flexDirection: 'row',
-    alignItems: 'flex-start'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   profileInfo: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   profilePic: {
     width: 40,
@@ -159,8 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   infoCage:{
-    marginLeft:10,
-    width: '85%'
+    width: '100%',
   },
   shopName: {
     fontSize: 14,
@@ -168,15 +167,15 @@ const styles = StyleSheet.create({
     color: '#aaa',
   },
   tabCage: {
-    height: 350,
-    maxHeight: 350,
+    height: 450,
+    maxHeight: 450,
   },
   tabBar: {
     backgroundColor: 'transparent',
     elevation: 0,
   },
   tabIndicator: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: 'rgb(255, 255, 255)',
     height: 1,
   },
   tabLabel: {
@@ -186,10 +185,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%',
+    height: '100%',
   },
   tabText: {
     color: 'white',
-    marginTop: 10
   },
 });
 
