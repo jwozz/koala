@@ -1,14 +1,6 @@
 // ShopFront.js
 import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import ProductScreen from './ProductScreen';
 import StatusViewer from './StatusViewer';
@@ -169,6 +161,7 @@ const styles = StyleSheet.create({
   tabCage: {
     height: 450,
     maxHeight: 450,
+    marginHorizontal: 10,
   },
   tabBar: {
     backgroundColor: 'transparent',
