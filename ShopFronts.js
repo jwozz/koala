@@ -133,22 +133,29 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 15,
     marginBottom: 15,
+    marginHorizontal: 10,
+    paddingVertical: 10,
     borderBottomWidth: 0,
     borderColor: 'rgba(34, 34, 34, 0.5)',
+    backgroundColor: 'rgba(34, 34, 34, 0.5)',
+    borderRadius: 10,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },
   profileInfo: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 10,
+    width: '100%',
+    paddingHorizontal: 10,
   },
   profilePic: {
     width: 40,
     height: 40,
-    borderRadius: 40,
+    borderRadius: 10,
+    marginRight: 10,
   },
   infoCage:{
     width: '100%',
@@ -162,6 +169,7 @@ const styles = StyleSheet.create({
     height: 450,
     maxHeight: 450,
     marginHorizontal: 10,
+    borderRadius: 10,
   },
   tabBar: {
     backgroundColor: 'transparent',

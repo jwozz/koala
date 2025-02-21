@@ -11,7 +11,8 @@ const Deals = () => {
         <DealsFilter />
         <ScrollView 
         vertical 
-        showsVerticalScrollIndicator>
+        showsVerticalScrollIndicator
+        nestedScrollEnabled={true}>
             <View style={styles.cover}>
                 <ShopFront />
                 <ItemCard />
